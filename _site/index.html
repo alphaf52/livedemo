@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/framework.css">
+<script src="../js/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$("#searchterm").focus();
+	$('#searchterm').keypress(function (e) {
+		var key = e.which;
+		if(key == 13)  // the enter key code
+		{
+			$("#search").click();
+			return false;
+		}
+	});
+    $("#search").click(function(){
+	    $(".background").addClass("hide-bg");
+	    $("#logo").hide();
+	    $("#searchterm").parent().removeClass("middle");
+	    $("#searchterm").parent().addClass("top");
+        var urlStr ='http://localhost:9200/singulariti/_search?q='+$('#searchterm').val()+'&pretty&size=5';
+        $.ajax({
+            url: urlStr,
+            crossDomain: true, 
+            dataType: 'json',
+            type: 'POST',
+            contentType: 'application/json',
+           success: function(result) {
+            	$("#results").empty();
+            	$("#results").append("<p>Results for <b>" + $("#searchterm").val() + "</b></p>");
+            	$.each(result.hits.hits, function(i,item){
+            	$("#results").append(
+            		"<a href='http://book.douban.com/subject/" + item._source.id + "'><h3>" + item._source.title + "</h3></a>"+
+					"<pre>    Rating: " + item._source.score + "    Author: " + item._source.author + "    Press: " + item._source.publisher + "    Publish Year: " + item._source.year + "</pre>" +
+            		"<ul>"+ item._source.introduction +"</ul>"
+            		);
+            	});
+            }
+        });
+	});
+});
+</script>
+</head>
+<title>奇点云搜索Demo</title>
+<body class="background">
+<div class="content">
+	<div class="middle">
+		<h1 id ="logo", style="font-family: ;font-size:50px; color:white">在几千本图书中找到<br>
+		您最想要的</h1>
+		<br/>
+		<input id="searchterm"/>
+		<button id="search">搜索一下！</button>
+		<div id="results">
+		</div>
+	</div>
+</div>
+</body>
+</html>

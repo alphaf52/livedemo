@@ -1,0 +1,66 @@
+.content {
+	padding-bottom: 35px;
+}
+
+html,body,div{
+	margin:0; 
+	padding:0; 
+	height:100%; 
+	position:relative; 
+} 
+
+.background{ 
+  background-image:url('../asset/Melk_Abbey_Library_blur.jpg');
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  background-position:center;
+  background-size:100%;
+}
+
+.background.hide-bg{
+  background-image: none;
+}
+
+
+.middle{ 
+	height:200px; 
+	top:50%; 
+	margin-top:-100px; 
+  text-align: center;
+}
+
+.top{
+  position: relative;
+  margin:10px 500px 10px 100px;
+}
+
+#logo {
+    font-family: Raleway, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    color: #333;
+    text-rendering: optimizeLegibility;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+
+#searchterm {
+    height: 30px;
+    width: 300px;
+    padding: 2px;
+    border: 2px solid #aaa;
+    margin: auto;
+    font-size: 120%;
+} 
+
+#search{
+    height:40px;
+    width:100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 100%;
+    font-weight: 200;
+    font-style: normal;
+}
