@@ -1,60 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html class="init">
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/framework.css">
-<script src="../js/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+</script>
 <script>
+var content;
+var page;
+function sendRequest() {
+  var from = (page - 1) * 10;
+  var urlStr = 'http://localhost:9200/singulariti/_douBookSearch?q=' + 
+      content + '&pretty' + '&from=' + from + '&size=10';
+  $.ajax({
+    url: urlStr,
+    crossDomain: true, 
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    success: function(result) {
+      $("#overall").empty();
+      $("#overall").append(
+          "<p>Results for <b>" + $("#searchterm").val() + ", " +
+          "showing page " + page + "</b></p>");
+      $("#details").empty();
+      $.each(result.results, function(i,item) {
+        $("#details").append(
+            "<a href='http://book.douban.com/subject/" + item.id + "'>" +
+            "<h3>" + item.title + "</h3>" + "</a>" + 
+            "<pre>    Rating: " + item.score + 
+            "    Author: " + item.author + 
+            "    Press: " + item.publisher + 
+            "    Publish Year: " + item.year + "</pre>" + 
+            "<ul>"+ item.introduction +"</ul>");
+      });
+      if (page != 1) $('#previous_page').show();
+      for (var i = 0; i < 10; i++) {
+        // if (result.hits > i*10) {
+          $('#page_' + (i+1)).show();
+          if (i+1 == page) {
+            $('#page_' + (i+1)).addClass('red');
+          } else {
+            $('#page_' + (i+1)).removeClass('red');
+          }
+        // }
+      }
+      // if (result.hits > (page+1)*10) {
+        $('#next_page').show();
+      // }
+      $('html, body').animate({scrollTop: 0}, 5);
+    }
+  });
+}
 $(document).ready(function(){
-	$("#searchterm").focus();
-	$('#searchterm').keypress(function (e) {
-		var key = e.which;
-		if(key == 13)  // the enter key code
-		{
-			$("#search").click();
-			return false;
-		}
-	});
-    $("#search").click(function(){
-	    $(".background").addClass("hide-bg");
-	    $("#logo").hide();
-	    $("#searchterm").parent().removeClass("middle");
-	    $("#searchterm").parent().addClass("top");
-        var urlStr ='http://localhost:9200/singulariti/_search?q='+$('#searchterm').val()+'&pretty&size=5';
-        $.ajax({
-            url: urlStr,
-            crossDomain: true, 
-            dataType: 'json',
-            type: 'POST',
-            contentType: 'application/json',
-           success: function(result) {
-            	$("#results").empty();
-            	$("#results").append("<p>Results for <b>" + $("#searchterm").val() + "</b></p>");
-            	$.each(result.hits.hits, function(i,item){
-            	$("#results").append(
-            		"<a href='http://book.douban.com/subject/" + item._source.id + "'><h3>" + item._source.title + "</h3></a>"+
-					"<pre>    Rating: " + item._source.score + "    Author: " + item._source.author + "    Press: " + item._source.publisher + "    Publish Year: " + item._source.year + "</pre>" +
-            		"<ul>"+ item._source.introduction +"</ul>"
-            		);
-            	});
-            }
-        });
-	});
+  $("#searchterm").focus();
+  $('#searchterm').keypress(function (e) {
+    var key = e.which;
+    if(key == 13)  // the enter key code
+    {
+      $("#search").click();
+      return false;
+    }
+  });
+  $("#search").click(function(){
+    content = $('#searchterm').val();
+    page = 1;
+    $("#html").removeClass("init");
+    $(".background").addClass("hide-bg");
+    $("#logo").hide();
+    $("#searchterm").parent().removeClass("middle");
+    $("#searchterm").parent().addClass("top");
+    sendRequest();
+  });
 });
 </script>
 </head>
 <title>奇点云搜索Demo</title>
-<body class="background">
-<div class="content">
-	<div class="middle">
-		<h1 id ="logo", style="font-family: ;font-size:50px; color:white">在几千本图书中找到<br>
-		您最想要的</h1>
-		<br/>
-		<input id="searchterm"/>
-		<button id="search">搜索一下！</button>
-		<div id="results">
-		</div>
-	</div>
+<body class="background" class="init">
+<div class="content" class="init">
+  <div class="middle">
+    <h1 id ="logo", style="font-family: ;font-size:50px; color:white">在几千本图书中找到<br>
+    您最想要的</h1>
+    <br/>
+    <input id="searchterm"/>
+    <button id="search">搜索一下！</button>
+    <div id="results">
+      <div id='overall'></div>
+      <div id='details'></div>
+      <div id='pages'>
+        <label id="previous_page" hidden='hidden' onclick="page=page-1;sendRequest()">&nbsp;上一页&nbsp;</label>
+        <label id="page_1" hidden='hidden' onclick="page=1;sendRequest()">&nbsp;1&nbsp;</label>
+        <label id="page_2" hidden='hidden' onclick="page=2;sendRequest()">&nbsp;2&nbsp;</label>
+        <label id="page_3" hidden='hidden' onclick="page=3;sendRequest()">&nbsp;3&nbsp;</label>
+        <label id="page_4" hidden='hidden' onclick="page=4;sendRequest()">&nbsp;4&nbsp;</label>
+        <label id="page_5" hidden='hidden' onclick="page=5;sendRequest()">&nbsp;5&nbsp;</label>
+        <label id="page_6" hidden='hidden' onclick="page=6;sendRequest()">&nbsp;6&nbsp;</label>
+        <label id="page_7" hidden='hidden' onclick="page=7;sendRequest()">&nbsp;7&nbsp;</label>
+        <label id="page_8" hidden='hidden' onclick="page=8;sendRequest()">&nbsp;8&nbsp;</label>
+        <label id="page_9" hidden='hidden' onclick="page=9;sendRequest()">&nbsp;9&nbsp;</label>
+        <label id="page_10" hidden='hidden' onclick="page=10;sendRequest()">&nbsp;10&nbsp;</label>
+        <label id="next_page" hidden='hidden' onclick="page=page+1;sendRequest()">&nbsp;下一页&nbsp;</label>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>

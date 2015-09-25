@@ -1,13 +1,22 @@
-.content {
-	padding-bottom: 35px;
+em {
+  font-style: bold;
+  color: crimson;
 }
 
-html,body,div{
-	margin:0; 
-	padding:0; 
-	height:100%; 
-	position:relative; 
-} 
+.content {
+	padding-bottom: 35px;
+  margin:0; 
+  padding:0; 
+  height:100%; 
+  position:relative;
+}
+
+.init {
+  margin:0; 
+  padding:0; 
+  height:100%; 
+  position:relative;
+}
 
 .background{ 
   background-image:url('../asset/Melk_Abbey_Library_blur.jpg');
@@ -15,23 +24,31 @@ html,body,div{
   background-attachment:fixed;
   background-position:center;
   background-size:100%;
+  margin:0; 
+  padding:0; 
+  height:100%; 
+  position:relative;
 }
 
 .background.hide-bg{
   background-image: none;
 }
 
-
 .middle{ 
 	height:200px; 
 	top:50%; 
 	margin-top:-100px; 
   text-align: center;
+  position:relative;
 }
 
 .top{
   position: relative;
   margin:10px 500px 10px 100px;
+}
+
+.red {
+  color: crimson;
 }
 
 #logo {
@@ -63,4 +80,24 @@ html,body,div{
     font-size: 100%;
     font-weight: 200;
     font-style: normal;
+}
+
+#results {
+  margin:10px 10px 10px 10px;
+  padding-bottom: 20px;
+}
+
+#overall{
+  margin:10px 10px 10px 10px;
+  height:20px;
+}
+
+#details{
+  margin:10px 10px 10px 10px;
+}
+
+#pages{
+  margin:10px 10px 10px 10px;
+  height:20px;
+  text-align: center;
 }
