@@ -29,7 +29,11 @@ function sendRequest() {
         if (item.img_url == null) {
           img_url = "res/3.pic.jpg";
         } else {
-          img_url = item.img_url;
+          if (item.img_url == "http://img3.douban.com/lpic/s2068870.jpg\n") {
+            img_url = "res/3.pic.jpg";
+          } else {
+            img_url = item.img_url;
+          }
         }
         $("#details").append(
             "<div class=\"div-pic\">" + 
