@@ -21,18 +21,33 @@ function sendRequest() {
     success: function(result) {
       $("#overall").empty();
       $("#overall").append(
-          "<p>Results for <b>" + $("#searchterm").val() + ", " +
-          "showing page " + page + "</b></p>");
+          "<p>Results for <b>" + $("#searchterm").val() + "</b>, " +
+          "showing page " + page + "</p>");
       $("#details").empty();
-      $.each(result.results, function(i,item) {
+      $.each(result.results, function(i, item) {
+        var img_url;
+        if (item.img_url == null) {
+          img_url = "res/3.pic.jpg";
+        } else {
+          img_url = item.img_url;
+        }
         $("#details").append(
-            "<a href='http://book.douban.com/subject/" + item.id + "'>" +
-            "<h3>" + item.title + "</h3>" + "</a>" + 
-            "<pre>    Rating: " + item.score + 
-            "    Author: " + item.author + 
-            "    Press: " + item.publisher + 
-            "    Publish Year: " + item.year + "</pre>" + 
-            "<ul>"+ item.introduction +"</ul>");
+            "<div class=\"div-pic\">" + 
+            "<img src=\"" + img_url + "\">" + 
+            "</div>");
+        $("#details").append(
+            "<div class=\"div-result-title\">" + 
+                "<div class=\"div-title-line\">" +
+                "<a href='http://book.douban.com/subject/" + 
+                item.id + "'>" + item.title + "</a>" + "</div>" +
+                "<div class=\"div-meta-info\"><span>" + "Rating: " + item.score + "</span></div>" + 
+                "<div class=\"div-meta-info\"><span>" + "Author: " + item.author + "</span></div>" +
+                "<div class=\"div-meta-info\"><span>" + "Press: " + item.publisher + "</span></div>" + 
+                "<div class=\"div-meta-info\"><span>" + "Publish Year: " + item.year + "</span></div>" + 
+            "</div>");
+        $("#details").append(
+            "<div class=\"div-result-intro\">" + 
+            item.introduction + "</div>");
       });
       if (page != 1) $('#previous_page').show();
       for (var i = 0; i < 10; i++) {
